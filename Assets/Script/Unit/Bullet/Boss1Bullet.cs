@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBullet : Bullet
+public class Boss1Bullet : EnemyBullet
 {
 
 
 
-}
 
+
+}

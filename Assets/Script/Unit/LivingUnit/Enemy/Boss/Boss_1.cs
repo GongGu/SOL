@@ -9,16 +9,21 @@ public class Boss_1 : Boss
     public List<Part_Boss_1> parts = new List<Part_Boss_1>();
 
     public float partRootDirection;
-    public float partRotateSpeed = 30f;
+
+    public float partRotateSpeed;
+    public float partReverseRotateSpeed;
+    private float targetPartRotateSpeed;
+    private float currentPartRotateSpeed;
+
+    public float partDistance = 1.5f;
 
     public bool enableSetupPartTransform = true;
+    public bool enableReversePattern = false;
 
-    private void Awake()
+    protected override void Awake()
     {
         for (int i = 0; i < 4; ++i)
             parts.Add(Instantiate(partPrefab));
-
-
     }
 
     private void FixedUpdate()
@@ -32,28 +37,39 @@ public class Boss_1 : Boss
         if (enableSetupPartTransform == false)
             return;
 
-        partRootDirection += partRotateSpeed * Time.fixedDeltaTime;
+        if(enableReversePattern == true)
+            targetPartRotateSpeed = partReverseRotateSpeed;
+        else
+            targetPartRotateSpeed = partRotateSpeed;
+
+        currentPartRotateSpeed = Mathf.Lerp(currentPartRotateSpeed, targetPartRotateSpeed, Time.fixedDeltaTime);
+
+        partRootDirection += currentPartRotateSpeed * Time.fixedDeltaTime;
 
         for (int i = 0; i < 4; ++i)
         {
-            float distance = 1.5f;
-
             float dir = partRootDirection + i * 90f;
 
-            Vector2 deltaPos = MyMath.DirectionToVector2(dir) * distance;
+            Vector2 deltaPos = MyMath.DirectionToVector2(dir) * partDistance;
 
-            dir += 90f;
+            dir -= 90f;
 
             parts[i].transform.position = transform.position + (Vector3)deltaPos;
+
             Vector3 partAngle = parts[i].transform.eulerAngles;
             partAngle.z = dir;
             parts[i].transform.eulerAngles = partAngle;
         }
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-            for (int i = 0; i < 4; ++i)
-                Destroy(parts[i].gameObject);   
+        base.OnDestroy();
+
+        for (int i = 0; i < 4; ++i)
+        {
+            if (parts[i] != null)
+                Destroy(parts[i].gameObject);
+        }
     }
 }

@@ -9,20 +9,32 @@ public class Pattern_Boss1_2 : PatternSequencer
 
     public Bullet bulletPrefab;
 
-    protected override void Awake()
+    protected override void Start()
     {
         owner = GetComponent<Unit>();
 
         if (owner == null)
             Destroy(this);
 
+        InitCircleSignal();
+        InitCircleSignal();
+        InitCircleSignal();
+        InitCircleSignal();
+        InitCircleSignal();
+
+        patternTimeStamps.Add(new PatternTimeStamp(3f, null));
+    }
+
+    void InitCircleSignal()
+    {
         PatternCircle circle = new PatternCircle();
         circle.bulletPrefab = bulletPrefab;
         circle.position = owner.transform.position;
-        circle.count = 20;
+        circle.count = 16;
         circle.angle = 360f;
-        circle.distance = 1f;
-        circle.delay = 0.1f;
+        circle.distance = 2f;
+        circle.delay = 0.03f;
+        circle.bulletSpeed = 8f;
 
         patternTimeStamps.Add(new PatternTimeStamp(0f, circle));
 
@@ -30,9 +42,7 @@ public class Pattern_Boss1_2 : PatternSequencer
         signal.owner = owner;
 
         // circle 패턴의 탄막이 모두 생성된 후 0.1 초 뒤에 발사
-        patternTimeStamps.Add(new PatternTimeStamp(circle.count * circle.delay + 0.1f, signal));
-
-        patternTimeStamps.Add(new PatternTimeStamp(3f, null));
+        patternTimeStamps.Add(new PatternTimeStamp(circle.count * circle.delay + 0.5f, signal));
     }
 }
 

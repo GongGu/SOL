@@ -7,7 +7,7 @@ public class PatternActivator : MonoBehaviour
 {
     public List<PatternSequencer> patterns = new List<PatternSequencer>();
     public Queue<PatternSequencer> patternQueue = new Queue<PatternSequencer>();
-    private PatternSequencer lastActivatedPattern; // 패턴이 연속으로 발동을 안하게 마지막 패턴의 정보를 가지고있을거임
+    private PatternSequencer lastActivatedPattern = null; // 패턴이 연속으로 발동을 안하게 마지막 패턴의 정보를 가지고있을거임
 
     private void FixedUpdate()
     {
@@ -18,13 +18,22 @@ public class PatternActivator : MonoBehaviour
     {
         if (patternQueue.Count == 0) // 패턴을 다 실행했으면 새로 채워넣음
         {
-            PatternSequencer selectPattern = patterns[Random.Range(0, patterns.Count - 1)]; // 유니티 사이즈 지정값
+            int rand = Random.Range(0, patterns.Count);
 
-            // 새로 채워넣을 때, lastActivatedPattern 을 가장 먼저 채워넣지 않도록 설정
-            while (selectPattern != null &&
-                selectPattern == lastActivatedPattern) // 마지막에 발동한 패턴이 연속으로 발동되지 않도록 처리
+            PatternSequencer selectPattern = patterns[rand]; // 유니티 사이즈 지정값
+
+            //// 새로 채워넣을 때, lastActivatedPattern 을 가장 먼저 채워넣지 않도록 설정
+            if (patterns.Count > 1)
             {
-                selectPattern = patterns[Random.Range(0, patterns.Count - 1)]; // select random pattern
+                while (selectPattern != null &&
+                    selectPattern == lastActivatedPattern) // 마지막에 발동한 패턴이 연속으로 발동되지 않도록 처리
+                {
+                    selectPattern = patterns[Random.Range(0, patterns.Count)]; // select random pattern
+                }
+            }
+            else
+            {
+                lastActivatedPattern = null; // 패턴이 한개 뿐이면 last activated 상관없이 발동되도록 설정
             }
 
             if (selectPattern == null)
@@ -36,7 +45,7 @@ public class PatternActivator : MonoBehaviour
             // 나머지 패턴들을 Queue 에 마저 채워넣음
             while (patterns.Count > 0) 
             {
-                selectPattern = patterns[Random.Range(0, patterns.Count - 1)]; // select random pattern
+                selectPattern = patterns[Random.Range(0, patterns.Count)]; // select random pattern
 
                 patternQueue.Enqueue(selectPattern);
                 patterns.Remove(selectPattern);

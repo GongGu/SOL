@@ -24,9 +24,10 @@ GameObject:
   - component: {fileID: 114078391200918284}
   - component: {fileID: 114294041457281624}
   - component: {fileID: 114361788153711636}
+  - component: {fileID: 114706158641943288}
+  - component: {fileID: 114158777356530560}
   - component: {fileID: 58041215615640626}
   - component: {fileID: 50467730942299958}
-  - component: {fileID: 95245113750737942}
   m_Layer: 0
   m_Name: Boss 1
   m_TagString: Untagged
@@ -82,23 +83,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.08
---- !u!95 &95245113750737942
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1791360795032848}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d01673c79d26e8a4ba5239732a91d12b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114078391200918284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,6 +97,8 @@ MonoBehaviour:
   patterns:
   - {fileID: 114294041457281624}
   - {fileID: 114361788153711636}
+  - {fileID: 114706158641943288}
+  - {fileID: 114158777356530560}
 --- !u!114 &114139107166628340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,14 +113,33 @@ MonoBehaviour:
   type: 6
   damage: 1
   colliderForTrigger: {fileID: 0}
-  maxHP: 1
+  maxHP: 500
   currentHP: 0
   partPrefab: {fileID: 114807240353291178, guid: 117cfd05f42d8a54cb74700532c205a4,
     type: 2}
   parts: []
   partRootDirection: 0
-  partRotateSpeed: 30
+  partRotateSpeed: 60
+  partReverseRotateSpeed: 1200
+  partDistance: 1.5
   enableSetupPartTransform: 1
+  enableReversePattern: 0
+--- !u!114 &114158777356530560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791360795032848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df802150e3089a4f94cc35935f36cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPatternRunning: 0
+  patternTimeStamps: []
+  owner: {fileID: 0}
+  bulletPrefab: {fileID: 114980752083109120, guid: b4313d3eb87c10d4cb330be05848af11,
+    type: 2}
 --- !u!114 &114294041457281624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +154,7 @@ MonoBehaviour:
   isPatternRunning: 0
   patternTimeStamps: []
   owner: {fileID: 0}
-  bulletPrefab: {fileID: 114476423856412602, guid: b4313d3eb87c10d4cb330be05848af11,
+  bulletPrefab: {fileID: 114980752083109120, guid: b4313d3eb87c10d4cb330be05848af11,
     type: 2}
 --- !u!114 &114361788153711636
 MonoBehaviour:
@@ -165,7 +170,23 @@ MonoBehaviour:
   isPatternRunning: 0
   patternTimeStamps: []
   owner: {fileID: 0}
-  bulletPrefab: {fileID: 114476423856412602, guid: b4313d3eb87c10d4cb330be05848af11,
+  bulletPrefab: {fileID: 114129024597110752, guid: ef28b122213d6bb4fa513779e2ea1dd8,
+    type: 2}
+--- !u!114 &114706158641943288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1791360795032848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3c20a461eca448b9ff9983a2ea958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPatternRunning: 0
+  patternTimeStamps: []
+  owner: {fileID: 0}
+  bulletPrefab: {fileID: 114980752083109120, guid: b4313d3eb87c10d4cb330be05848af11,
     type: 2}
 --- !u!212 &212434992425569906
 SpriteRenderer:
@@ -201,7 +222,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 96918d44eb17fc643a14cff860a03e81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6864bd3669a24d445ace737448ba42b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

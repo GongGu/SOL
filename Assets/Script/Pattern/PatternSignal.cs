@@ -16,10 +16,16 @@ public class PatternSignal : Pattern
             if (pattern.spawnedBulletList[i] == null)
                 break;
 
-            Vector2 myPosition = pattern.spawnedBulletList[i].transform.position;
+            Vector2 myPosition = pattern.spawnedBulletList[i].transform.position; // owner.transform.position; //
             Vector2 targetPosition = PlayerScript.player.transform.position;
 
             pattern.spawnedBulletList[i].direction = MyMath.GetDirection(myPosition, targetPosition);
+
+            Boss1Bullet2 bullet = pattern.spawnedBulletList[i] as Boss1Bullet2;
+
+            float speedWeight = Random.Range(0.5f, 1.5f);
+
+            bullet.speed = bullet.originSpeed * speedWeight;
         }
     }
 }

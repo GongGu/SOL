@@ -22,14 +22,14 @@ public abstract class PatternSequencer : MonoBehaviour
 
     public List<PatternTimeStamp> patternTimeStamps = new List<PatternTimeStamp>();
 
-    protected abstract void Awake();
+    protected abstract void Start();
 
     public void PatternActivate()
     {
-        StartCoroutine(PatternFramework());
+        StartCoroutine(PatternFlow());
     }
 
-    protected virtual IEnumerator PatternFramework()
+    protected virtual IEnumerator PatternFlow()
     {
         isPatternRunning = true;
 
@@ -41,6 +41,8 @@ public abstract class PatternSequencer : MonoBehaviour
 
             if (currentPattern != null) //null인 경우는 딜레이만 사용. 후딜레이 넣을 때 null 로 할 것
             {
+                currentPattern.owner = GetComponent<Unit>();
+
                 if (i > 0)
                     StartCoroutine(currentPattern.PatternFramework(patternTimeStamps[i - 1].pattern));
                 else

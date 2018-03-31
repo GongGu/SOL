@@ -4,13 +4,13 @@ using UnityEngine;
 
 // 패턴에 관련된 설명 첨부할 것.
 // Boss1_1 은 세번 탄막 방사
-public class Pattenr_Boss1_1 : PatternSequencer
+public class Pattern_Boss1_1 : PatternSequencer
 {
     public Unit owner;
 
     public Bullet bulletPrefab;
 
-    protected override void Awake()
+    protected override void Start()
     {
         owner = GetComponent<Unit>();
 
@@ -19,9 +19,19 @@ public class Pattenr_Boss1_1 : PatternSequencer
 
         patternTimeStamps.Add(InitPatternTimeStamp(0f, 0f));
 
-        patternTimeStamps.Add(InitPatternTimeStamp(1f, 0.5f));
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.25f));
 
-        patternTimeStamps.Add(InitPatternTimeStamp(1f, 0f));
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.5f));
+        
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.75f));
+
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0f));
+
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.75f));
+
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.5f));
+
+        patternTimeStamps.Add(InitPatternTimeStamp(0.3f, 0.25f));
 
         patternTimeStamps.Add(new PatternTimeStamp(3f, null)); // 후딜레이
     }

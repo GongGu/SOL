@@ -13,6 +13,8 @@ public class PatternCircle : Pattern
     public float angle = 360f;
     public float directionRatio = 0f;
 
+    public float bulletSpeed = 3f;
+
     public float distance = 0f;
     public float delay = 0f;
 
@@ -25,14 +27,16 @@ public class PatternCircle : Pattern
             float targetDirection = (float)i / ((float)count) * 360f;
             targetDirection += (float)1 / (float)count * 360f * directionRatio;
 
-//            Vector2 deltaPosition = MyMath.DirectionToVector2(targetDirection) * distance;
-
             Bullet bullet = MonoBehaviour.Instantiate(bulletPrefab);
             spawnedBulletList.Add(bullet);
 
             bullet.direction = targetDirection;
 
-//            position = transform.position + (Vector3)deltaPosition;
+            bullet.speed = bulletSpeed;
+
+            Vector2 deltaPosition = MyMath.DirectionToVector2(targetDirection) * distance;
+
+            position = owner.transform.position + (Vector3)deltaPosition;
 
             bullet.transform.position = position;
 
