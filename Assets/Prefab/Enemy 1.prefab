@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1540704124491754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.5, y: -1.17, z: 0}
-  m_LocalScale: {x: 1.8248457, y: 1.8248457, z: 1.8248457}
+  m_LocalScale: {x: 2.2, y: 2.2, z: 2.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -112,11 +112,11 @@ MonoBehaviour:
   type: 6
   damage: 1
   colliderForTrigger: {fileID: 0}
-  maxHP: 1
-  currentHP: 1
-  bulletPrefab: {fileID: 114290436527681706, guid: 5f96e3e28704bb24ba3dcec7fe65a4f1,
+  maxHP: 10
+  currentHP: 10
+  bulletPrefab: {fileID: 114692033885483216, guid: 5f96e3e28704bb24ba3dcec7fe65a4f1,
     type: 2}
-  fireDeley: 0
+  fireDeley: 3
 --- !u!212 &212045856520521440
 SpriteRenderer:
   m_ObjectHideFlags: 1

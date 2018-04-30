@@ -98,6 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be9560a26d19e94fb076cfdbeb6f459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 10
+  type: 13
   damage: 1
   colliderForTrigger: {fileID: 0}

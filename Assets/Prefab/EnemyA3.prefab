@@ -146,7 +146,7 @@ MonoBehaviour:
   type: 6
   damage: 1
   colliderForTrigger: {fileID: 0}
-  maxHP: 10
+  maxHP: 100
   currentHP: 10
   spawnDelay: 0
   enemy2: {fileID: 114565014436312840, guid: 7841d630663891f4bb387025bde31ca6, type: 2}

@@ -9,8 +9,8 @@ public class Boss1Bullet2 : EnemyBullet
 
     private void Start()
     {
-        originSpeed = speed;
-        speed = 0f;
+        originSpeed = bulletSpeed;
+        bulletSpeed = 0f;
     }
 
 }

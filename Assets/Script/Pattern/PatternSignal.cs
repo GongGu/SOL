@@ -25,7 +25,7 @@ public class PatternSignal : Pattern
 
             float speedWeight = Random.Range(0.5f, 1.5f);
 
-            bullet.speed = bullet.originSpeed * speedWeight;
+            bullet.bulletSpeed = bullet.originSpeed * speedWeight;
         }
     }
 }

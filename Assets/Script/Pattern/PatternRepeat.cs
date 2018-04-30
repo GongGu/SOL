@@ -18,24 +18,32 @@ public class PatternRepeat : Pattern
 
     public float delay = 0f;
 
+    public Vector3 deltaPos;
+
     public override IEnumerator PatternFramework(Pattern prevPattern)
     {
         spawnedBulletList.Clear();
 
         for (int i = 0; i < count; ++i)
         {
-            float targetDirection = MyMath.GetDirection(fireRoot.transform.position, target.transform.position);
+            float targetDirection;
+            if (target == null)
+                targetDirection = fireRoot.transform.eulerAngles.z + 90f;
+            else
+                targetDirection = MyMath.GetDirection(fireRoot.transform.position, target.transform.position);
 
             Bullet bullet = MonoBehaviour.Instantiate(bulletPrefab);
             spawnedBulletList.Add(bullet);
 
             bullet.direction = targetDirection;
 
-            bullet.speed = bulletSpeed;
+            bullet.bulletSpeed = bulletSpeed;
 
-            bullet.transform.position = fireRoot.transform.position;
+            Vector3 deltaPos3 = MyMath.GetRotatedPosition(targetDirection - 90f, deltaPos);
+            bullet.transform.position = fireRoot.transform.position + deltaPos3;
 
-            fireRoot.transform.eulerAngles = new Vector3(0f, 0f, targetDirection + deltaDirection);
+            if (target != null)
+                fireRoot.transform.eulerAngles = new Vector3(0f, 0f, targetDirection + deltaDirection);
 
             if (delay > 0f) //delay가 0의 값을 가지더라도 WaitForSesconds는 최소한 한 프레임을 기다리기때문에 딜레이가 0보다 클때만 기다린다
                 yield return new WaitForSeconds(delay);

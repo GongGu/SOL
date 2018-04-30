@@ -59,5 +59,22 @@ public class MyMath {
         else
             return from;
     }
+
+    public static Vector2 GetRotatedPosition(float degrees, Vector2 pos)
+    {
+        float prevDegrees = MyMath.GetDirection(new Vector2(0f, 0f), pos);
+
+        float distance = Vector2.Distance(new Vector2(0f, 0f), pos);
+
+        return GetRotatedPosition(prevDegrees + degrees, distance);
+    }
+
+    public static Vector2 GetRotatedPosition(float degrees, float distance)
+    {
+        float x = distance * Mathf.Cos(Mathf.Deg2Rad * degrees);
+        float y = distance * Mathf.Sin(Mathf.Deg2Rad * degrees);
+
+        return new Vector2(x, y);
+    }
 }
     

@@ -29,6 +29,11 @@ public class Unit : MonoBehaviour
         ALLY_BULLET,
         ENEMY_BULLET,
 
+        PART,
+
+        ALLY_PART,
+        ENEYMY_PART,
+
         WALL,
     }
 
@@ -39,7 +44,7 @@ public class Unit : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collider) // 유닛 충돌함수을 유닛스크립트로 따로 관리
     {
-        LivingUnit targetUnit = collider.GetComponent<LivingUnit>();
+        Unit targetUnit = collider.GetComponent<Unit>();
         if (targetUnit == null)
             return;
         
@@ -73,9 +78,15 @@ public class Unit : MonoBehaviour
         {//적 유닛이 아군 유닛에 충돌
             CollisionProcess(targetUnit);
         }
+
+        if(type == UnitType.ENEMY_BULLET &&
+            targetType == UnitType.ALLY_PART)
+        {//적 총알이 내 파츠에 충돌
+            CollisionProcess(targetUnit);
+        }
     }
 
-    public virtual void CollisionProcess(LivingUnit targetUnit)
+    public virtual void CollisionProcess(Unit targetUnit)
     {
         if (targetUnit is PlayerScript == true)
         {
@@ -94,6 +105,12 @@ public class Unit : MonoBehaviour
             {
                 shield.ShieldEnable = false;
 
+                if (targetUnit is PlayerScript == true)
+                {
+                    PlayerScript ps = targetUnit as PlayerScript;
+                    ps.BeHit(this);
+                }
+
                 if (type == UnitType.ALLY_BULLET ||
                     type == UnitType.ENEMY_BULLET)
                     Destroy(gameObject);
@@ -104,9 +121,20 @@ public class Unit : MonoBehaviour
 
         // target 의 체력 감소
         // 충돌시이펙트 추가예정
-        targetUnit.CurrentHP -= damage;
+        if(targetUnit is LivingUnit)
+        {
+            LivingUnit livingTarget = targetUnit as LivingUnit;
 
-        if(type == UnitType.ALLY_BULLET ||
+            livingTarget.CurrentHP -= damage;
+        }
+
+        if (targetUnit is PlayerScript == true)
+        {
+            PlayerScript ps = targetUnit as PlayerScript;
+            ps.BeHit(this);
+        }
+
+        if (type == UnitType.ALLY_BULLET ||
             type == UnitType.ENEMY_BULLET)
             Destroy(gameObject);
     }

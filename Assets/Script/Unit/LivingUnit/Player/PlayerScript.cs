@@ -6,14 +6,39 @@ public class PlayerScript : LivingUnit
 {
     public static PlayerScript player;
 
-    public float playerSpeed;
+    private float currentPlayerSpeed;
+    public float originPlayerSpped;
 
     public float immuneDuration;
 
     public float fireDelay;
     private float remainFireDelay;
 
+    public float subFireDelay;
+    private float remainSubFireDelay;
+
     public Bullet bulletPrefab;
+    public AllySubBullet1 subBulletPrefab;
+
+    public AllySubBullet2 subBullet2Prefab;
+
+    private AllySubBullet1 spawnedSubBullet;
+
+    private List<AllySubBullet2> spawnedSub2BulletList = new List<AllySubBullet2>();
+
+    private Dictionary<KeyCode, bool> isPressDic = new Dictionary<KeyCode, bool>(); // 1:1 키 대응
+
+    public SubWeaponType currentWeapon;
+
+    public bool isSturn;
+
+    public enum SubWeaponType
+    {
+        SUB_1,
+        SUB_2,
+    }
+
+    private bool hasSubBullet;
 
     private bool isImmune = false;
     public bool IsImmune
@@ -34,7 +59,7 @@ public class PlayerScript : LivingUnit
                     GetComponent<SpriteRenderer>().color.r,
                     GetComponent<SpriteRenderer>().color.g,
                     GetComponent<SpriteRenderer>().color.b,
-                    0.2f);
+                    0.6f);
             }
             else
             {
@@ -50,10 +75,32 @@ public class PlayerScript : LivingUnit
     private void Awake()
     {
         player = this;
+        currentPlayerSpeed = originPlayerSpped;
+
+        isPressDic.Add(KeyCode.W, false);
+        isPressDic.Add(KeyCode.A, false);
+        isPressDic.Add(KeyCode.S, false);
+        isPressDic.Add(KeyCode.D, false);
+
+        isPressDic.Add(KeyCode.Mouse0, false);
+        isPressDic.Add(KeyCode.Mouse1, false);
+    }
+
+    private void Update()
+    {
+        isPressDic[KeyCode.W] = Input.GetKey(KeyCode.W);
+        isPressDic[KeyCode.A] = Input.GetKey(KeyCode.A);
+        isPressDic[KeyCode.S] = Input.GetKey(KeyCode.S);
+        isPressDic[KeyCode.D] = Input.GetKey(KeyCode.D);
+
+        isPressDic[KeyCode.Mouse0] = Input.GetKey(KeyCode.Mouse0);
+        isPressDic[KeyCode.Mouse1] = Input.GetKey(KeyCode.Mouse1);
     }
 
     void FixedUpdate()
     {
+        if (isSturn == true)
+            return;
 
         PlayerMove();
 
@@ -66,21 +113,21 @@ public class PlayerScript : LivingUnit
 
     void PlayerMove() // 플레이어 움직이는 함수
     {
-        if (Input.GetKey(KeyCode.W))
+        if (isPressDic[KeyCode.W] == true)
         {
-            transform.position = transform.position + (new Vector3(0, 1, 0) * playerSpeed * Time.fixedDeltaTime);
+            transform.position = transform.position + (new Vector3(0, 1, 0) * currentPlayerSpeed * Time.fixedDeltaTime);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (isPressDic[KeyCode.S] == true)
         {
-            transform.position = transform.position + (new Vector3(0, -1, 0) * playerSpeed * Time.fixedDeltaTime);
+            transform.position = transform.position + (new Vector3(0, -1, 0) * currentPlayerSpeed * Time.fixedDeltaTime);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (isPressDic[KeyCode.A] == true)
         {
-            transform.position = transform.position + (new Vector3(-1, 0, 0) * playerSpeed * Time.fixedDeltaTime);
+            transform.position = transform.position + (new Vector3(-1, 0, 0) * currentPlayerSpeed * Time.fixedDeltaTime);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (isPressDic[KeyCode.D] == true)
         {
-            transform.position = transform.position + (new Vector3(1, 0, 0) * playerSpeed * Time.fixedDeltaTime);
+            transform.position = transform.position + (new Vector3(1, 0, 0) * currentPlayerSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -94,7 +141,7 @@ public class PlayerScript : LivingUnit
 
     void BulletFire()
     {
-        if (Input.GetKey(KeyCode.Mouse0)) // 마우스 0 은 좌클릭
+        if (isPressDic[KeyCode.Mouse0] == true) // 마우스 0 은 좌클릭
         {
             if (remainFireDelay < 0f)
             {
@@ -112,6 +159,84 @@ public class PlayerScript : LivingUnit
                 remainFireDelay -= Time.fixedDeltaTime;
             }
         }
+
+
+        switch(currentWeapon)
+        {
+            case SubWeaponType.SUB_1:
+                {
+                    // 스킬 1 차징총알
+                    if (isPressDic[KeyCode.Mouse1] == true && hasSubBullet == false)
+                    {
+                        spawnedSubBullet = Instantiate(subBulletPrefab);
+                        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                        spawnedSubBullet.owner = this; // AllySubBullet1 의 주인은 이놈이다
+
+                        spawnedSubBullet.transform.position = this.transform.position;
+
+                        hasSubBullet = true;
+                    }
+                    if (isPressDic[KeyCode.Mouse1] == true && hasSubBullet == true)
+                    {
+                        currentPlayerSpeed = originPlayerSpped * 0.5f;
+                    }
+                    else
+                    {
+                        currentPlayerSpeed = originPlayerSpped;
+                    }
+
+                    if (isPressDic[KeyCode.Mouse1] == false && hasSubBullet == true)
+                    {
+                        spawnedSubBullet.isCharge = false;
+
+                        hasSubBullet = false;
+                    }
+                }
+                break;
+            case SubWeaponType.SUB_2:
+                {
+                    if (isPressDic[KeyCode.Mouse1] == true && hasSubBullet == false)
+                    {
+                        spawnedSub2BulletList.Clear();
+
+                        hasSubBullet = true;
+                    }
+                        // 스킬 1 차징총알
+                    if (isPressDic[KeyCode.Mouse1] == true)
+                    {
+                        if (remainSubFireDelay < 0f)
+                        {
+                            remainSubFireDelay = subFireDelay;
+
+                            AllySubBullet2 bullet = Instantiate(subBullet2Prefab);
+
+                            spawnedSub2BulletList.Add(bullet);
+
+                            bullet.transform.position = transform.position;
+                        }
+                        else
+                        {
+                            remainSubFireDelay -= Time.fixedDeltaTime;
+                        }
+                    }
+                    if(isPressDic[KeyCode.Mouse1] == false && hasSubBullet == true)
+                    {
+                        hasSubBullet = false;
+
+                        for(int i = 0; i < spawnedSub2BulletList.Count;++i)
+                        {
+                            spawnedSub2BulletList[i].isCharge = false;
+
+                            spawnedSub2BulletList[i].direction = transform.eulerAngles.z + 90f + Random.Range(-30f, 30f);
+
+                            spawnedSub2BulletList[i].bulletSpeed = Random.Range(9f, 11f);
+                        }
+                    }
+                    break;
+                }
+        }
+
     }
 
     void Boom()
@@ -132,5 +257,38 @@ public class PlayerScript : LivingUnit
         yield return new WaitForSeconds(immuneDuration);
 
         IsImmune = false;
+    }
+
+    public void BeHit(Unit attackUnit)
+    {
+        float hitDirection = MyMath.GetDirection(attackUnit, this);
+
+        StartCoroutine(SturnProcess(hitDirection));
+    }
+
+    IEnumerator SturnProcess(float hitDirection)
+    {
+        isSturn = true;
+
+        float maxDuration = 0.3f;
+        float duration = maxDuration;
+
+        float maxSpd = 10f;
+        float spd = maxSpd;
+
+        while (duration > 0f)
+        {
+            duration -= Time.fixedDeltaTime;
+
+            spd -= maxSpd * Time.fixedDeltaTime / maxDuration;
+
+            Vector2 deltaPos = MyMath.DirectionToVector2(hitDirection) * spd * Time.fixedDeltaTime;
+
+            transform.position = transform.position + (Vector3)deltaPos;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        isSturn = false;
     }
 }

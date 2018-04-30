@@ -7,18 +7,18 @@ public class Bullet : Unit {
     [System.NonSerialized]//public이어도 유니티 에디터에서 숨길 수 있음
     public float direction;
 
-    public float speed = 10f; // 총알스피드
+    public float bulletSpeed; // 총알스피드
         
 	// Update is called once per frame
-	void FixedUpdate () {
+	protected virtual void FixedUpdate () {
 
-        transform.position = (Vector2)transform.position + MyMath.DirectionToVector2(direction) * Time.fixedDeltaTime * speed;
+        transform.position = (Vector2)transform.position + MyMath.DirectionToVector2(direction) * Time.fixedDeltaTime * bulletSpeed;
 
         // 총알의 포지션을 Vector2로 강제 형변환한 값에 이동량을 더해줘서 실제 이동시키기
 
     }
 
-    IEnumerator DelayDestroy()
+    protected IEnumerator DelayDestroy()
     {
 
         yield return new WaitForSeconds(5f); 

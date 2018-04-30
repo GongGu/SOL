@@ -18,9 +18,13 @@ public class PatternActivator : MonoBehaviour
     {
         if (patternQueue.Count == 0) // 패턴을 다 실행했으면 새로 채워넣음
         {
-            int rand = Random.Range(0, patterns.Count);
+            if (patterns.Count == 0)
+                return;
 
-            PatternSequencer selectPattern = patterns[rand]; // 유니티 사이즈 지정값
+                int rand = Random.Range(0, patterns.Count);
+
+
+                PatternSequencer selectPattern = patterns[rand]; // 유니티 사이즈 지정값
 
             //// 새로 채워넣을 때, lastActivatedPattern 을 가장 먼저 채워넣지 않도록 설정
             if (patterns.Count > 1)
