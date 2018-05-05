@@ -92,7 +92,7 @@ MonoBehaviour:
   type: 6
   damage: 1
   colliderForTrigger: {fileID: 0}
-  maxHP: 10
+  maxHP: 5
   currentHP: 1
   rotationSpeed: 0
   maxMoveSpeed: 7

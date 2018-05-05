@@ -51,10 +51,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d881aa256bfd3604188042e8d8599657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab1: {fileID: 114771078787430630, guid: 3a0b2b1870580d94f85fd8772bcf95fb,
+  enemyPrefab1: {fileID: 114030211029954252, guid: 9f62a779e98067c4c8bd54eb0a257254,
     type: 2}
-  enemyPrefab2: {fileID: 114565014436312840, guid: 7841d630663891f4bb387025bde31ca6,
+  enemyPrefab2: {fileID: 114461026672989130, guid: ea6bb7e5d1e31464fbe8521f08f4c64c,
     type: 2}
-  enemyPrefab3: {fileID: 114024405571583260, guid: 5abf2f1fe6534a84d8fe3a1fa242da67,
+  enemyPrefab3: {fileID: 114966644835307404, guid: e0371d347080bf1419a770561079faad,
+    type: 2}
+  enemyPrefab4: {fileID: 114771078787430630, guid: 3a0b2b1870580d94f85fd8772bcf95fb,
+    type: 2}
+  enemyPrefab5: {fileID: 114565014436312840, guid: 7841d630663891f4bb387025bde31ca6,
+    type: 2}
+  enemyPrefab6: {fileID: 114024405571583260, guid: 5abf2f1fe6534a84d8fe3a1fa242da67,
     type: 2}
   boss: {fileID: 114139107166628340, guid: ee4deb4efebfdf349bea7d119873b623, type: 2}
