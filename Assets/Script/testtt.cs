@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class testtt : MonoBehaviour {
 
-    // 조영훈은 바보다
+    //나는 바보다
 
 	// Use this for initialization
 	void Start () {
