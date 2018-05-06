@@ -8,7 +8,7 @@ public class Shield : MonoBehaviour
 
     private GameObject shieldInstance;
 
-    private bool shieldEnable = true;
+    private bool shieldEnable = false;
     public bool ShieldEnable
     {
         get
@@ -36,9 +36,10 @@ public class Shield : MonoBehaviour
 
     private void Awake()
     {
-        remainDelay = chargeDelay;
+        remainDelay = 0f;
 
         shieldInstance = Instantiate(shieldPrefab);
+        shieldInstance.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     private void LateUpdate()
@@ -48,7 +49,7 @@ public class Shield : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(shieldEnable == false)
+        if (shieldEnable == false)
         {
             if(remainDelay < 0f)
             {

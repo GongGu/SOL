@@ -74,6 +74,8 @@ public class PlayerScript : LivingUnit
 
     private void Awake()
     {
+        ApplyGameSetting();
+
         player = this;
         currentPlayerSpeed = originPlayerSpped;
 
@@ -169,10 +171,7 @@ public class PlayerScript : LivingUnit
                     if (isPressDic[KeyCode.Mouse1] == true && hasSubBullet == false)
                     {
                         spawnedSubBullet = Instantiate(subBulletPrefab);
-                        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
                         spawnedSubBullet.owner = this; // AllySubBullet1 의 주인은 이놈이다
-
                         spawnedSubBullet.transform.position = this.transform.position;
 
                         hasSubBullet = true;
@@ -291,4 +290,45 @@ public class PlayerScript : LivingUnit
 
         isSturn = false;
     }
+
+
+    private void ApplyGameSetting()
+    {
+        switch (GameSetting.gameSetting.subWeapon)
+        {
+            case GameSetting.SubWeapon.A:
+                currentWeapon = SubWeaponType.SUB_1;
+                break;
+
+            case GameSetting.SubWeapon.B:
+                currentWeapon = SubWeaponType.SUB_2;
+                break;
+        }
+
+
+        switch (GameSetting.gameSetting.defenceModule)
+        {
+            case GameSetting.DefenceModule.A:
+                GetComponent<Shield>().enabled = true;
+                FindObjectOfType<Part_DefencePanel>().gameObject.SetActive(false);
+                break;
+
+            case GameSetting.DefenceModule.B:
+                GetComponent<Shield>().enabled = false;
+                FindObjectOfType<Part_DefencePanel>().gameObject.SetActive(true);
+                break;
+        }
+
+        switch (GameSetting.gameSetting.playerPlane)
+        {
+            case GameSetting.PlayerPlane.A:
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/Player1");
+                break;
+            case GameSetting.PlayerPlane.B:
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/Player2_0");
+                gameObject.AddComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprite/Anim/Player2_0") as RuntimeAnimatorController;
+                break;
+        }
+    }
+
 }

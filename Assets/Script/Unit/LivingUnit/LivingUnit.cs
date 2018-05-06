@@ -14,6 +14,9 @@ public class LivingUnit : Unit
         }
         set
         {
+            if (currentHP != value)
+                OnUpdateHP();
+
             currentHP = value;
 
             if (currentHP <= 0)
@@ -32,8 +35,18 @@ public class LivingUnit : Unit
 
     protected virtual void OnDeath()
     {
-        if (type == UnitType.ALLY_LIVING_UNIT)
-            Application.Quit();
+        if(this is PlayerScript)
+        {
+            Time.timeScale = 0f;
+
+            IngameSceneEvent.ingameScene.gameObject.SetActive(true);
+        }
+
         Destroy(gameObject);
+    }
+
+    public virtual void OnUpdateHP()
+    {
+
     }
 }

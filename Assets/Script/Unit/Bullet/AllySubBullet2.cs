@@ -14,7 +14,7 @@ public class AllySubBullet2 : Bullet
         accel = Random.Range(70f, 75f);
     }
 
-    private void FixedUpdate()
+    new private void FixedUpdate()
     {
         if(isCharge == false)
         {

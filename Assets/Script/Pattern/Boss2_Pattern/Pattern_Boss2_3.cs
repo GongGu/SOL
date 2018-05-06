@@ -24,23 +24,17 @@ public class Pattern_Boss2_3 : PatternSequencer
 
     }
 
-    private void FixedUpdate()
-    {
-        Debug.Log(leftParts.Count);
-    }
-
     protected override IEnumerator PatternFlow()
     {
 
         isPatternRunning = true;
 
-        float duration = 10f;
-        float remainDuration = duration;
+        float duration;
+        float remainDuration;
 
         owner.pattern3On = true;
-        
 
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             leftParts.Add(Instantiate(leftParPrefab));
 
@@ -48,6 +42,27 @@ public class Pattern_Boss2_3 : PatternSequencer
             leftParts[i].transform.position = MyMath.GetRotatedPosition(
                 leftParts[i].transform.eulerAngles.z, new Vector3(-0.2f, 0.9f, 0f));
         }
+
+        duration = 1f;
+        remainDuration = duration;
+
+        while(remainDuration > 0)
+        {
+            remainDuration -= Time.fixedDeltaTime;
+
+            float alpha = 1f - remainDuration / duration; //  남은 시간에 따라 0 부터 1까지 증가하는 값
+            
+            for(int i = 0; i < 4; ++i)
+            {
+                leftParts[i].GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha); 
+            }
+
+            // remain = dura a => 0 remaindura = 0 a => 1
+            yield return new WaitForFixedUpdate();
+        }
+
+
+
 
         for (int i = 0; i < 4; ++i)
         {
@@ -68,6 +83,9 @@ public class Pattern_Boss2_3 : PatternSequencer
                     StartCoroutine(currentPattern.PatternFramework(null));
             }
         }
+
+        duration = 10f;
+        remainDuration = duration;
 
         while (remainDuration > 0)
         {

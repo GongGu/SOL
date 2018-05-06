@@ -9,9 +9,6 @@ public class EnemyB2 : Enemy
     private float moveSpeed;
     public float accelSpeed;
 
-    private float turnDelay;
-    private float remainTurnDelay;
-
     public Bullet bulletPrefab;
 
 
@@ -41,11 +38,6 @@ public class EnemyB2 : Enemy
 
         this.transform.position = this.transform.position
             + (Vector3)(deltaPosition * moveSpeed * Time.fixedDeltaTime);
-
-
-        turnDelay = 2f;
-        remainTurnDelay -= Time.fixedDeltaTime;
-
 
         moveSpeed = Mathf.MoveTowards(moveSpeed, maxMoveSpeed, maxMoveSpeed * accelSpeed * Time.fixedDeltaTime);
     }

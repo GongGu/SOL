@@ -12,6 +12,11 @@ public class LaserBodyBullet : Bullet
         StartCoroutine(LaserProcess());
     }
 
+    new private void FixedUpdate()
+    {
+        
+    }
+
     IEnumerator LaserProcess()
     {
         Animator animator = GetComponent<Animator>();
@@ -23,11 +28,6 @@ public class LaserBodyBullet : Bullet
             yield return new WaitForSeconds(0.5f);
 
         Destroy(gameObject);
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     public override void CollisionProcess(Unit targetUnit)

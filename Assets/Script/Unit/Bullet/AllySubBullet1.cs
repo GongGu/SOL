@@ -14,7 +14,7 @@ public class AllySubBullet1 : AllyBullet
         fDamage = damage;
     }
 
-    private void FixedUpdate()
+    new private void FixedUpdate()
     {
         if (isCharge == true)
         {
